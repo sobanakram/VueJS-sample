@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>MsRemote</title>
+
+    <link href="style.css" type="text/css" rel="stylesheet" />
+  </head>
+
+  <body>
+    <div id="shopping-list">
+      <div class="header">
+        <h1>{{ header.toLocaleUpperCase() }}</h1>
+        <button
+          v-if="state === 'default'"
+          class="btn btn-primary"
+          @click="changeState('edit')"
+        >
+          Add Item
+        </button>
+        <button v-else class="btn btn-cancel" @click="changeState('default')">
+          Cancel Adding Item
+        </button>
+      </div>
+      <div v-if="state === 'edit'" class="add-item-form">
+        <input
+          class="label"
+          v-model="newItem.label"
+          type="text"
+          placeholder="Add an item"
+        />
+        <input
+          v-model="newItem.highPriority"
+          type="checkbox"
+        />
+        highPriority?
+        <button
+          class="btn btn-primary"
+          :disabled="newItem.label.length === 0"
+          @click="saveItem"
+        >
+          Save Item
+        </button>
+      </div>
+      <ul>
+          <product-item 
+          v-for="item in reversedItems"
+          v-bind:product="item"
+          v-bind:key="item.id">            
+          </product-item>
+        <!-- <li
+          v-for="item in reversedItems"
+          :class="{strikeout: item.purchased, priority: item.highPriority}"
+          @click="togglePurchased(item)"
+        >
+          {{ item.label }}
+        </li> -->
+      </ul>
+      <p v-if="items.length === 0">Nice job! You've bought all your items.</p>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+    <script type="text/javascript" src="script.js"></script>
+  </body>
+</html>
